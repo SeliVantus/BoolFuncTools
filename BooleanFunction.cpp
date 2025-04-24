@@ -5,7 +5,7 @@
 
 BooleanFunction::BooleanFunction(const std::vector<int>& values) : values(values) {}
 
-// Преобразование в СДНФ
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ РЎР”РќР¤
 std::vector<std::vector<std::string>> BooleanFunction::toPDNF() const {
     std::vector<std::vector<std::string>> pdnf;
     int n = std::log2(values.size());
@@ -26,7 +26,7 @@ std::vector<std::vector<std::string>> BooleanFunction::toPDNF() const {
     return pdnf;
 }
 
-// Преобразование в АНФ
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ РђРќР¤
 std::vector<std::vector<std::string>> BooleanFunction::toANF() const {
     std::vector<int> anfCoeffs = values;
     int n = std::log2(values.size());
@@ -55,12 +55,12 @@ std::vector<std::vector<std::string>> BooleanFunction::toANF() const {
     return anf;
 }
 
-// Вес Хэмминга
+// Р’РµСЃ РҐСЌРјРјРёРЅРіР°
 int BooleanFunction::hammingWeight() const {
     return std::count(values.begin(), values.end(), 1);
 }
 
-// Автокорреляция
+// РђРІС‚РѕРєРѕСЂСЂРµР»СЏС†РёСЏ
 std::vector<int> BooleanFunction::autocorrelation() const {
     std::vector<int> result(values.size(), 0);
     for (size_t e = 0; e < values.size(); ++e) {
@@ -71,12 +71,12 @@ std::vector<int> BooleanFunction::autocorrelation() const {
     return result;
 }
 
-// Проверка аффинности
+// РџСЂРѕРІРµСЂРєР° Р°С„С„РёРЅРЅРѕСЃС‚Рё
 bool BooleanFunction::isAffine() const {
-    return toANF().size() <= 1; // Если АНФ содержит только константу или линейные члены
+    return toANF().size() <= 1; // Р•СЃР»Рё РђРќР¤ СЃРѕРґРµСЂР¶РёС‚ С‚РѕР»СЊРєРѕ РєРѕРЅСЃС‚Р°РЅС‚Сѓ РёР»Рё Р»РёРЅРµР№РЅС‹Рµ С‡Р»РµРЅС‹
 }
 
-// Корреляционная иммунность
+// РљРѕСЂСЂРµР»СЏС†РёРѕРЅРЅР°СЏ РёРјРјСѓРЅРЅРѕСЃС‚СЊ
 int BooleanFunction::correlativeImmunityK2() const {
     Transformations transform;
     auto wf = transform.walshHadamardTransform(values);
@@ -91,9 +91,24 @@ int BooleanFunction::correlativeImmunityK2() const {
     return static_cast<int>(std::log2(values.size()));
 }
 
-// Следующее число с тем же весом Хэмминга
+// РЎР»РµРґСѓСЋС‰РµРµ С‡РёСЃР»Рѕ СЃ С‚РµРј Р¶Рµ РІРµСЃРѕРј РҐСЌРјРјРёРЅРіР°
 int BooleanFunction::nextHammingNumber(int a) const {
     int c = a & -a;
     int r = a + c;
     return (((r ^ a) >> 2) / c) | r;
+}
+
+bool BooleanFunction::isBalanced() const {
+    return hammingWeight() == values.size() / 2;
+}
+
+int BooleanFunction::algebraicDegree() const {
+    int maxDegree = 0;
+    auto anf = toANF();
+    for (const auto& term : anf) {
+        if (term.size() > maxDegree && !(term.size() == 1 && term[0] == "1")) {
+            maxDegree = term.size();
+        }
+    }
+    return maxDegree;
 }
