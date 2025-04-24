@@ -7,29 +7,33 @@
 
 class BooleanFunction {
 private:
-    std::vector<int> values; // Вектор значений функции
+    std::vector<int> values; // Р’РµРєС‚РѕСЂ Р·РЅР°С‡РµРЅРёР№ С„СѓРЅРєС†РёРё
     int nextHammingNumber(int a) const;
 
 public:
     BooleanFunction(const std::vector<int>& values);
 
-    // Преобразование в СДНФ
+    // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ РЎР”РќР¤
     std::vector<std::vector<std::string>> toPDNF() const;
 
-    // Преобразование в АНФ
+    // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ РђРќР¤
     std::vector<std::vector<std::string>> toANF() const;
 
-    // Вес Хэмминга
+    // Р’РµСЃ РҐСЌРјРјРёРЅРіР°
     int hammingWeight() const;
 
-    // Автокорреляция
+    // РђРІС‚РѕРєРѕСЂСЂРµР»СЏС†РёСЏ
     std::vector<int> autocorrelation() const;
 
-    // Проверка аффинности
+    // РџСЂРѕРІРµСЂРєР° Р°С„С„РёРЅРЅРѕСЃС‚Рё
     bool isAffine() const;
 
-    // Корреляционная иммунность
+    // РљРѕСЂСЂРµР»СЏС†РёРѕРЅРЅР°СЏ РёРјРјСѓРЅРЅРѕСЃС‚СЊ
     int correlativeImmunityK2() const;
+
+    bool isBalanced() const;
+
+    int algebraicDegree() const;
 };
 
 #endif
