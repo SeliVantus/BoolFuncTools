@@ -3,49 +3,71 @@
 #include "Transformations.h"
 #include "Tests.h"
 
-int main() {
-    // Пример использования
-    std::vector<int> f = { 0, 1, 1, 1}; // Булева функция
-    BooleanFunction bf(f);
+void analyzeFunction(const BooleanFunction& f, const std::string& label, const std::vector<int>& raw) {
+    std::cout << "\n--- Analysis of " << label << " ---\n";
 
-    // Преобразование в СДНФ
     std::cout << "PDNF: ";
-    for (const auto& term : bf.toPDNF()) {
-        for (const auto& var : term) {
-            std::cout << var << " ";
-        }
+    for (const auto& term : f.toPDNF()) {
+        for (const auto& var : term) std::cout << var << " ";
         std::cout << "| ";
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 
-    // Преобразование в АНФ
     std::cout << "ANF: ";
-    for (const auto& term : bf.toANF()) {
-        for (const auto& var : term) {
-            std::cout << var << " ";
-        }
+    for (const auto& term : f.toANF()) {
+        for (const auto& var : term) std::cout << var << " ";
         std::cout << "| ";
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 
-    // Вес Хэмминга
-    std::cout << "Hamming weight: " << bf.hammingWeight() << std::endl;
+    std::cout << "Hamming weight: " << f.hammingWeight() << "\n";
+    std::cout << "Algebraic degree: " << f.algebraicDegree() << "\n";
+    std::cout << "Balanced: " << (f.isBalanced() ? "Yes" : "No") << "\n";
+    std::cout << "Affine: " << (f.isAffine() ? "Yes" : "No") << "\n";
 
-    // Нелинейность
+    std::cout << "Autocorrelation: ";
+    auto autocorr = f.autocorrelation();
+    for (int val : autocorr) std::cout << val << " ";
+    std::cout << "\n";
+
     Transformations transform;
-    std::cout << "Nonlinearity: " << transform.nonlinearity(f) << std::endl;
+    std::cout << "Nonlinearity: " << transform.nonlinearity(raw) << "\n";
 
-    // DDT
-    std::cout << "DDT:" << std::endl;
-    auto ddt = transform.ddt(f);
+    std::cout << "DDT:\n";
+    auto ddt = transform.ddt(raw);
     for (const auto& row : ddt) {
-        for (const auto& val : row) {
-            std::cout << val << " ";
-        }
-        std::cout << std::endl;
+        for (int val : row) std::cout << val << " ";
+        std::cout << "\n";
     }
 
-    // Запуск тестов
+    std::cout << "LAT:\n";
+    auto lat = transform.lat(raw);
+    for (const auto& row : lat) {
+        for (int val : row) std::cout << val << " ";
+        std::cout << "\n";
+    }
+}
+
+int main() {
+    // РџСЂРёРјРµСЂ Р±СѓР»РµРІС‹С… С„СѓРЅРєС†РёР№
+    std::vector<int> f1 = { 0, 1, 1, 0, 0, 1, 0, 1 };
+    std::vector<int> f2 = { 1, 0, 0, 1, 1, 0, 1, 0 };
+
+    BooleanFunction bf1(f1);
+    BooleanFunction bf2(f2);
+    Transformations transform;
+
+    // РђРЅР°Р»РёР· РїРµСЂРІРѕР№ С„СѓРЅРєС†РёРё
+    analyzeFunction(bf1, "Function 1", f1);
+
+    // РђРЅР°Р»РёР· РІС‚РѕСЂРѕР№ С„СѓРЅРєС†РёРё
+    analyzeFunction(bf2, "Function 2", f2);
+
+    // РљРѕСЂСЂРµР»СЏС†РёСЏ РјРµР¶РґСѓ С„СѓРЅРєС†РёСЏРјРё
+    std::cout << "\n--- Correlation between Function 1 and Function 2 ---\n";
+    std::cout << "Correlation: " << transform.correlation(f1, f2) << "\n";
+
+    // Р—Р°РїСѓСЃРє РІСЃС‚СЂРѕРµРЅРЅС‹С… С‚РµСЃС‚РѕРІ
     Tests tests;
     tests.runAllTests();
 
