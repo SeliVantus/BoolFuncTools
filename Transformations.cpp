@@ -2,14 +2,14 @@
 #include <cmath>
 #include <algorithm>
 
-// Преобразование Уолша-Адамара
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РЈРѕР»С€Р°-РђРґР°РјР°СЂР°
 std::vector<int> Transformations::walshHadamardTransform(const std::vector<int>& f) const {
     int n = f.size();
     std::vector<int> w(n);
     for (int i = 0; i < n; ++i) {
             w[i] = f[i] ? -1 : 1;
     }
-    // Преобразование Уолша-Адамара (быстрое)
+    // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РЈРѕР»С€Р°-РђРґР°РјР°СЂР° (Р±С‹СЃС‚СЂРѕРµ)
     for (int len = 1; len < n; len *= 2) {
         for (int i = 0; i < n; i += 2 * len) {
             for (int j = 0; j < len; ++j) {
@@ -23,7 +23,7 @@ std::vector<int> Transformations::walshHadamardTransform(const std::vector<int>&
     return w;
 }
 
-// Нелинейность
+// РќРµР»РёРЅРµР№РЅРѕСЃС‚СЊ
 int Transformations::nonlinearity(const std::vector<int>& f) const {
     auto w = walshHadamardTransform(f);
     int maxVal = *std::max_element(w.begin(), w.end(), [](int a, int b) { return std::abs(a) < std::abs(b); });
@@ -58,7 +58,7 @@ std::vector<std::vector<int>> Transformations::lat(const std::vector<int>& f) co
     return lat;
 }
 
-// Скалярное произведение
+// РЎРєР°Р»СЏСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ
 int Transformations::scalarProduct(int a, int b) const {
     int res = 0;
     while (a > 0 || b > 0) {
@@ -67,4 +67,12 @@ int Transformations::scalarProduct(int a, int b) const {
         b >>= 1;
     }
     return res;
+}
+
+int Transformations::correlation(const std::vector<int>& f1, const std::vector<int>& f2) const {
+    int result = 0;
+    for (size_t i = 0; i < f1.size(); ++i) {
+        result += std::pow(-1, f1[i] ^ f2[i]);
+    }
+    return result;
 }
