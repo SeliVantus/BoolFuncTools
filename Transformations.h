@@ -6,10 +6,10 @@
 
 class Transformations {
 public:
-    // Преобразование Уолша-Адамара
+    // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РЈРѕР»С€Р°-РђРґР°РјР°СЂР°
     std::vector<int> walshHadamardTransform(const std::vector<int>& f) const;
 
-    // Нелинейность
+    // РќРµР»РёРЅРµР№РЅРѕСЃС‚СЊ
     int nonlinearity(const std::vector<int>& f) const;
 
     // DDT
@@ -18,8 +18,10 @@ public:
     // LAT
     std::vector<std::vector<int>> lat(const std::vector<int>& f) const;
 
+    int correlation(const std::vector<int>& f1, const std::vector<int>& f2) const;
+
 private:
-    // Скалярное произведение
+    // РЎРєР°Р»СЏСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ
     int scalarProduct(int a, int b) const;
 };
 
