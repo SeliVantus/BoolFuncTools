@@ -1,22 +1,35 @@
-BooleanFunction Library
+Boolean Function Analyzer
 
-This project implements a set of transformations and utilities for Boolean functions. It allows you to perform operations such as conversion to PDNF (Disjunctive Normal Form), ANF (Algebraic Normal Form), and calculate important properties like Hamming Weight, Autocorrelation, Nonlinearity, and Correlative Immunity.
+Программа на C++ для анализа булевых функций. Реализует вычисление различных криптографических характеристик функций: вес Хэмминга, сбалансированность, аффинность, АНФ, СДНФ, автокорреляция, корреляционная иммунность, нелинейность, DDT и LAT. Также реализованы тесты.
 
-Files Overview
+Функционал
 
-  BooleanFunction.cpp / .h: Defines the BooleanFunction class that handles the Boolean function and provides methods to convert it to PDNF, ANF, and compute various properties like Hamming weight and autocorrelation.
-  Transformations.cpp / .h: Contains the Transformations class with methods for Walsh-Hadamard transform, nonlinearity calculation, DDT (Difference Distribution Table), and LAT (Linear Approximation Table).
-  Tests.cpp / .h: Implements the Tests class that runs various tests for Hamming weight, Walsh-Hadamard transform, DDT, and LAT.
-main.cpp: Provides an example usage of the BooleanFunction class and the transformations. It demonstrates the functionality of converting a Boolean function, calculating its properties, and running tests. 
+Преобразование в СДНФ (PDNF),
+Преобразование в АНФ (ANF),
+Подсчёт веса Хэмминга,
+Проверка сбалансированности,
+Проверка аффинности функции,
+Вычисление степени алгебраичности,
+Автокорреляционная функция,
+Оценка корреляционной иммунности (K=2),
+Преобразование Уолша-Адамара (WHT),
+Оценка нелинейности,
+Дифференциальная таблица (DDT),
+Линейная таблица (LAT),
+Корреляция между двумя функциями,
+Простейшие встроенные тесты,
+Структура проекта.
 
-How to Use
+main.cpp — основной файл. Запускает анализ двух булевых функций, отображает результаты, проводит тесты.
+BooleanFunction.h/cpp — класс BooleanFunction, реализующий логику анализа булевой функции.
+Transformations.h/cpp — класс Transformations содержит вспомогательные функции: преобразование Уолша-Адамара, LAT, DDT, нелинейность и корреляция.
+Tests.h/cpp — набор простых встроенных тестов для проверки работы отдельных компонентов.
+Как использовать
 
-Creating a Boolean Function: To create a Boolean function, initialize it with a vector of 0s and 1s representing the function's truth table.
 
-               std::vector<int> f = { 0, 0, 1, 0 }; // Boolean function 
-               BooleanFunction bf(f);
+Пример входных данных
 
-Tests
-
-Note: The test values used in Tests.cpp are hardcoded.
-If you want to test your own Boolean functions, you should manually modify the vectors inside the test methods (e.g., hammingWeightTest, walshTransformTest, ddtTest, latTest) to reflect your specific input.
+        В main.cpp заданы две функции:
+        std::vector<int> f1 = { 0, 1, 1, 0, 0, 1, 0, 1 };
+        std::vector<int> f2 = { 1, 0, 0, 1, 1, 0, 1, 0 };
+Ты можешь заменить их на любые векторы длины 2^n
